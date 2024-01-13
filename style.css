@@ -1,0 +1,14 @@
+body {
+    background-color: rgb(41, 41, 41);
+    color: #38b6ff; /* Set text color to white for better visibility on a black background */
+  }
+
+.jumbotron {
+    background-color: rgb(41, 41, 41)
+}
+
+
+.fa-brands{
+    font-size: 50px;
+    margin: 5px;
+}
