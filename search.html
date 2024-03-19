@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Orçamentos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+
+        @media screen and (min-width: 1001px){
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 5px;
+                background-color: #060C27;
+                font-family: 'Open Sans', sans-serif; 
+            }
+
+            .consulter {
+                background-color: #060C27;
+                color: #ffffff;
+                border-radius: 4px;
+                padding: 5px;
+                width:800px;
+                display: inline-block;
+                text-align: center;
+                height: 200px;
+                margin-top: 50px;
+            }
+
+            #title{
+                font-size: 55px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            #subtext {
+                font-size: 20px;
+                color: white;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .searchBox {
+                margin-top: 1%;
+                display: grid;
+                place-items: center; /* Center both horizontally and vertically */
+            }
+
+            #searchInput {
+                background-color: #292e45;
+                color: #ffffff;
+                height: 30px;
+                width: 500px;
+                padding: 10px;
+                border: 1px solid #292e45;
+                border-radius: 7px;
+                font-size: 16px;
+            }
+
+            #searchInput:focus {
+                outline: none;
+            }
+
+            #suggestionContainer {
+                display: none;
+                position: absolute;
+                z-index: 9999;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 1px solid black;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                width: 520px;
+                margin-top: -2px;
+                background-color: #292e45;
+            }
+
+            #suggestionContainer ul {
+                list-style-type: none; /* Remove the default dot (bullet) */
+                padding: 0; /* Remove default padding */
+            }
+
+            #suggestionContainer ul li {
+                padding-left: 5px; /* Add a small margin to the left of each item */
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #ccc;
+            }
+
+            #suggestionContainer ul li:hover {
+                background-color: #969393; /* Add a background color when hovered */
+            }
+
+
+
+            /*Table data*/
+            .infoProfessional {
+                margin-top: 1%;
+                border-collapse: collapse;
+                width: 100%;
+
+                border-collapse: separate;
+                border-spacing: 5px;
+            }
+
+            .infoProfessional th, .infoProfessional td {
+                border: 1px solid black; /* Just for demonstration */
+                padding: 10px;
+                border: 1px solid #292e45;
+                padding: 8px;
+                text-align: center;
+                border-radius: 10px; 
+            }
+
+            .infoProfessional th {
+                background-color: #292e45;
+            }
+
+            .infoProfessional td {
+                background-color: #ffffff;
+                color: #000000;
+            }
+
+            #logo {
+                margin-top: 5px;
+                width: 26%;
+            }
+        }
+
+
+        @media screen and (max-width: 1000p){
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 5px;
+                background-color: #060C27;
+            }
+
+            #title{
+                font-size: 48px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            #subtext {
+                font-size: 20px;
+                color: white;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .consulter {
+                background-color: #060C27;
+                color: #ffffff;
+                border: 1px solid black;
+                border-radius: 4px;
+                padding: 5px;
+                width:800px;
+                display: inline-block; /* Center horizontally */
+                text-align: center;
+                
+            }
+
+            .searchBox {
+                margin-top: 1%;
+                display: grid;
+                place-items: center; /* Center both horizontally and vertically */
+            }
+
+            #searchInput {
+                background-color: #292e45;
+                color: #ffffff;
+                height: 30px;
+                width: 500px;
+                padding: 10px;
+                border: 1px solid #292e45;
+                border-radius: 7px;
+                font-size: 16px;
+            }
+
+            #searchInput:focus {
+                outline: none;
+            }
+
+            #suggestionContainer {
+                display: none;
+                position: absolute;
+                z-index: 9999;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 1px solid black;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                width: 520px;
+                margin-top: -2px;
+                background-color: #292e45;
+            }
+
+            #suggestionContainer ul {
+                list-style-type: none; /* Remove the default dot (bullet) */
+                padding: 0; /* Remove default padding */
+            }
+
+            #suggestionContainer ul li {
+                padding-left: 5px; /* Add a small margin to the left of each item */
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #ccc;
+            }
+
+            #suggestionContainer ul li:hover {
+                background-color: #969393; /* Add a background color when hovered */
+            }
+
+
+
+            /*Table data*/
+            .infoProfessional {
+                margin-top: 1%;
+                border-collapse: collapse;
+                width: 100%;
+
+                border-collapse: separate;
+                border-spacing: 5px;
+            }
+
+            .infoProfessional th, .infoProfessional td {
+                border: 1px solid black; /* Just for demonstration */
+                padding: 10px;
+                border: 1px solid #292e45;
+                padding: 8px;
+                text-align: center;
+                border-radius: 10px; 
+            }
+
+            .infoProfessional th {
+                background-color: #292e45;
+            }
+
+            .infoProfessional td {
+                background-color: #ffffff;
+                color: #000000;
+            }
+
+            #logo {
+                margin-top: 5px;
+                width: 26%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="consulter">
+
+        <div id="title">
+            Calculadora de Orçamentos
+        </div>
+
+        <div id="subtext">
+            Pesquise pelo cargo que deseja alocar conosco e sinta-se<br>
+            à vontade para consultar todos os preços necessários.
+        </div>
+
+        <div class="searchBox">
+            <input id="searchInput" type="text" name="SearchBox Profissionais" placeholder="Cargo" autocomplete="off">
+        </div>
+    
+        <div id="suggestionContainer"></div>
+    
+    
+        <div>
+            <table class="infoProfessional">
+                <tr>
+                    <th colspan="4">Atendimento Onsite (R$/hora)</th>
+                    <th colspan="4">Atendimento Offsite (R$/hora)</th>
+                </tr>
+                <tr>
+                    <th>Junior</th>
+                    <th>Pleno</th>
+                    <th>Senior</th>
+                    <th>Especialista</th>
+                    <th>Junior</th>
+                    <th>Pleno</th>
+                    <th>Senior</th>
+                    <th>Especialista</th>
+                </tr>
+                <tr class="salaryInfo">
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </table>
+
+            <img id="logo" src="logo_azul_branco.png" alt="Escalate Logo">
+        </div>
+    </div>
+
+    <script>
+
+
+        // AUTOCOMPLETE SEARCHBOX
+        const data = [
+            {
+                "ALOCAÇÃO": "AGILISTA",
+                "Atendimento Onsite": {
+                    "Junior": 44.4132315,
+                    "Pleno": 88.8333885,
+                    "Senior": 140.961627,
+                    "Especialista": 188.3666745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 122.6298285,
+                    "Especialista": 171.253764
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA DE DADOS",
+                "Atendimento Onsite": {
+                    "Junior": 44.4132315,
+                    "Pleno": 88.8333885,
+                    "Senior": 140.961627,
+                    "Especialista": 188.3666745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 122.6298285,
+                    "Especialista": 171.253764
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA DE NEGÓCIOS",
+                "Atendimento Onsite": {
+                    "Junior": 44.4132315,
+                    "Pleno": 88.8333885,
+                    "Senior": 140.961627,
+                    "Especialista": 188.3666745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 122.6298285,
+                    "Especialista": 171.253764
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA DE SISTEMAS",
+                "Atendimento Onsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 123.77253600000002,
+                    "Especialista": 164.8199745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 33.7202595,
+                    "Pleno": 67.4335935,
+                    "Senior": 107.733078,
+                    "Especialista": 149.840118
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA DE SUPORTE",
+                "Atendimento Onsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 123.77253600000002,
+                    "Especialista": 164.8199745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 33.7202595,
+                    "Pleno": 67.4335935,
+                    "Senior": 107.733078,
+                    "Especialista": 149.840118
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA DE TESTE - AUTOMAÇÃO",
+                "Atendimento Onsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 123.77253600000002,
+                    "Especialista": 164.8199745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 33.7202595,
+                    "Pleno": 67.4335935,
+                    "Senior": 107.733078,
+                    "Especialista": 149.840118
+                }
+            },
+            {
+                "ALOCAÇÃO": "ANALISTA TÉCNICO",
+                "Atendimento Onsite": {
+                    "Junior": 44.4132315,
+                    "Pleno": 88.8333885,
+                    "Senior": 140.961627,
+                    "Especialista": 188.3666745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 122.6298285,
+                    "Especialista": 171.253764
+                }
+            },
+            {
+                "ALOCAÇÃO": "ARQUITETO DE DADOS",
+                "Atendimento Onsite": {
+                    "Junior": 55.6602435,
+                    "Pleno": 111.306636,
+                    "Senior": 194.149467,
+                    "Especialista": 235.46007450000002
+                },
+                "Atendimento Offsite": {
+                    "Junior": 48.159926999999996,
+                    "Pleno": 96.31985399999999,
+                    "Senior": 168.9337215,
+                    "Especialista": 214.05335399999998
+                }
+            },
+            {
+                "ALOCAÇÃO": "ARQUITETO DE SOLUÇÃO",
+                "Atendimento Onsite": {
+                    "Junior": 55.6602435,
+                    "Pleno": 111.306636,
+                    "Senior": 194.149467,
+                    "Especialista": 235.46007450000002
+                },
+                "Atendimento Offsite": {
+                    "Junior": 48.159926999999996,
+                    "Pleno": 96.31985399999999,
+                    "Senior": 168.9337215,
+                    "Especialista": 214.05335399999998
+                }
+            },
+            {
+                "ALOCAÇÃO": "ARQUITETO DE TESTE",
+                "Atendimento Onsite": {
+                    "Junior": 55.6602435,
+                    "Pleno": 111.306636,
+                    "Senior": 194.149467,
+                    "Especialista": 235.46007450000002
+                },
+                "Atendimento Offsite": {
+                    "Junior": 48.159926999999996,
+                    "Pleno": 96.31985399999999,
+                    "Senior": 168.9337215,
+                    "Especialista": 214.05335399999998
+                }
+            },
+            {
+                "ALOCAÇÃO": "BUSINESS ANALYTICS",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "CIENTISTA DE DADOS",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "CONECTIVIDADE E NETWORKING",
+                "Atendimento Onsite": {
+                    "Junior": 44.4132315,
+                    "Pleno": 88.8333885,
+                    "Senior": 140.961627,
+                    "Especialista": 188.3666745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 122.6298285,
+                    "Especialista": 171.253764
+                }
+            },
+            {
+                "ALOCAÇÃO": "CYBER SECURITY",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. MAINFRAME",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. BACK END",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. FRONT END",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 130.39639200000002,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 113.07956399999999,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. FULL STACK",
+                "Atendimento Onsite": {
+                    "Junior": 48.277660499999996,
+                    "Pleno": 96.5483955,
+                    "Senior": 154.52868149999998,
+                    "Especialista": 205.5557655
+                },
+                "Atendimento Offsite": {
+                    "Junior": 43.346704499999994,
+                    "Pleno": 86.69340899999999,
+                    "Senior": 138.6831375,
+                    "Especialista": 192.6466335
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. DYNAMICS 365",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. JAVA",
+                "Atendimento Onsite": {
+                    "Junior": 48.277660499999996,
+                    "Pleno": 96.5483955,
+                    "Senior": 154.52868149999998,
+                    "Especialista": 205.5557655
+                },
+                "Atendimento Offsite": {
+                    "Junior": 43.346704499999994,
+                    "Pleno": 86.69340899999999,
+                    "Senior": 138.6831375,
+                    "Especialista": 192.6466335
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. MOBILE",
+                "Atendimento Onsite": {
+                    "Junior": 49.766643,
+                    "Pleno": 99.52636050000001,
+                    "Senior": 159.300351,
+                    "Especialista": 211.9133745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 43.346704499999994,
+                    "Pleno": 86.69340899999999,
+                    "Senior": 138.6831375,
+                    "Especialista": 192.6466335
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. OUTRAS LINGUAGENS",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. ORACLE",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. RPA",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "DEV. SAP",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "ENGENHEIRO CLOUD / DEVOPS",
+                "Atendimento Onsite": {
+                    "Junior": 48.277660499999996,
+                    "Pleno": 101.91219525,
+                    "Senior": 154.52868149999998,
+                    "Especialista": 205.5557655
+                },
+                "Atendimento Offsite": {
+                    "Junior": 43.346704499999994,
+                    "Pleno": 92.29724999999999,
+                    "Senior": 138.6831375,
+                    "Especialista": 192.6466335
+                }
+            },
+            {
+                "ALOCAÇÃO": "ENGENHEIRO DE DADOS",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "ENGENHEIRO DE QUALIDADE",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "GERENTE DE PROJETOS",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "GOVERNANÇA DE DADOS",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "LÍDER TÉCNICO",
+                "Atendimento Onsite": {
+                    "Junior": 52.876192499999995,
+                    "Pleno": 105.73853399999999,
+                    "Senior": 167.6732805,
+                    "Especialista": 223.679799
+                },
+                "Atendimento Offsite": {
+                    "Junior": 45.756778499999996,
+                    "Pleno": 91.5066315,
+                    "Senior": 145.892583,
+                    "Especialista": 203.346531
+                }
+            },
+            {
+                "ALOCAÇÃO": "MACHINE LEARNING",
+                "Atendimento Onsite": {
+                    "Junior": 45.4936095,
+                    "Pleno": 90.97336800000001,
+                    "Senior": 146.69594099999998,
+                    "Especialista": 194.786613
+                },
+                "Atendimento Offsite": {
+                    "Junior": 39.5930835,
+                    "Pleno": 79.200018,
+                    "Senior": 127.21450950000002,
+                    "Especialista": 176.5933245
+                }
+            },
+            {
+                "ALOCAÇÃO": "QA - QUALITY ASSURANCE",
+                "Atendimento Onsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 123.77253600000002,
+                    "Especialista": 164.8199745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 33.7202595,
+                    "Pleno": 67.4335935,
+                    "Senior": 107.733078,
+                    "Especialista": 149.840118
+                }
+            },
+            {
+                "ALOCAÇÃO": "SRE - SITE RELIABILITY ENGINEER",
+                "Atendimento Onsite": {
+                    "Junior": 48.277660499999996,
+                    "Pleno": 101.91219525,
+                    "Senior": 154.52868149999998,
+                    "Especialista": 205.5557655
+                },
+                "Atendimento Offsite": {
+                    "Junior": 43.346704499999994,
+                    "Pleno": 92.29724999999999,
+                    "Senior": 138.6831375,
+                    "Especialista": 192.6466335
+                }
+            },
+            {
+                "ALOCAÇÃO": "UX/UI DESIGNER",
+                "Atendimento Onsite": {
+                    "Junior": 38.533482,
+                    "Pleno": 77.0600385,
+                    "Senior": 110.020032,
+                    "Especialista": 164.8199745
+                },
+                "Atendimento Offsite": {
+                    "Junior": 33.7202595,
+                    "Pleno": 67.4335935,
+                    "Senior": 95.762736,
+                    "Especialista": 149.840118
+                }
+            }
+        ];
+
+        const input = document.getElementById("searchInput");
+        const suggestionContainer = document.getElementById("suggestionContainer");
+        const suggestionList = document.createElement("ul");
+        const alocacoes = data.map(item => item.ALOCAÇÃO);
+        const salaryInfo = document.getElementsByClassName("");
+        
+
+
+        input.addEventListener("focus", function() {
+            suggestionContainer.style.display = "block";  
+        });
+
+        input.addEventListener("blur", function() {
+            setTimeout(function() {
+                suggestionContainer.style.display = "none";
+            }, 150); 
+        });
+
+
+
+        input.addEventListener("keyup", (event) => {
+        const inputValue = event.target.value.trim().toLowerCase();
+        const AlocacoesFiltradas = alocacoes.filter(alocacao => alocacao.toLowerCase().includes(inputValue));
+
+        suggestionList.innerHTML = "";
+
+        if (inputValue === '') {
+            suggestionContainer.style.display = "none";
+        } else {
+            if (AlocacoesFiltradas.length > 0) {
+                const limitedSuggestions = AlocacoesFiltradas.slice(0, 5);
+                limitedSuggestions.forEach(alocacao => {
+                const listItem = document.createElement("li");
+                listItem.textContent = alocacao;
+                listItem.addEventListener("click", () => {
+                input.value = alocacao;
+                updateSalaryInfo(alocacao)
+                suggestionContainer.style.display = "none";
+                });
+                suggestionList.appendChild(listItem);
+            });
+
+            suggestionContainer.innerHTML = ""; 
+            suggestionContainer.appendChild(suggestionList);
+            suggestionContainer.style.display = "block";
+            } else {
+            suggestionContainer.innerHTML = "";
+            suggestionContainer.style.display = "none";
+            }
+        }
+        });
+
+        function getInfoByAlocacao(alocacao) {
+            // Find the object with the specified value for "ALOCAÇÃO"
+            const matchedData = data.find(entry => entry["ALOCAÇÃO"] === alocacao);
+            
+            if (matchedData) {
+                // Extract the required data from the matched object
+                const onsiteValues = Object.values(matchedData["Atendimento Onsite"]);
+                const offsiteValues = Object.values(matchedData["Atendimento Offsite"]);
+                
+                // Concatenate and return the list
+                return onsiteValues.concat(offsiteValues);
+            } else {
+                console.error(`ALOCAÇÃO "${alocacao}" not found.`);
+                return [];
+            }
+        }
+
+        function updateSalaryInfo(alocacao) {
+            values = getInfoByAlocacao(alocacao)
+            // Find the row with the class name "salaryInfo"
+            var salaryRow = document.querySelector('.salaryInfo');
+
+            // If the row is found
+            if (salaryRow) {
+                // Select all the <td> elements inside the row
+                var tdElements = salaryRow.querySelectorAll('td');
+
+                // Loop through each <td> and update its content with the corresponding value from the provided list
+                tdElements.forEach(function(td, index) {
+                    td.textContent = 'R$' + values[index].toFixed(2).toString();
+                });
+            } else {
+                console.error('Row with class "salaryInfo" not found.');
+            }
+        }
+
+    </script>   
+</body>
+</html>
