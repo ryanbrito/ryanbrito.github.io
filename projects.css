@@ -1,0 +1,33 @@
+.projects{    
+    margin: auto;
+}
+
+.projects-title{
+    color: white;
+    font-size: 3rem;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.center-table {
+    margin-top: 0%;
+    display: flex;
+    justify-content: center; /* horizontally center */
+    align-items: center;     /* vertically center */
+    width: 100%;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 20px;
+    width: 100%;
+}
+
+td {
+    width: 50%;
+}
+
+.proj-card {
+    width: 1000%;
+}
