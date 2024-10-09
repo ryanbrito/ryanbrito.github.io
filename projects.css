@@ -31,3 +31,8 @@ td {
 .proj-card {
     width: 1000%;
 }
+
+.card-body{
+    background-color: #212529;
+    height: 300;
+}
